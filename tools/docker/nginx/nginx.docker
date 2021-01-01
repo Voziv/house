@@ -24,7 +24,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       com.voziv.docker.dockerfile="tools/docker/nginx/nginx.docker"
 
 COPY --chown=nginx:nginx . /var/www/app
-COPY --from=node_build --chown=nginx:nginx /var/www/build /var/www/app
+COPY --from=node_build --chown=nginx:nginx /var/www/app /var/www/app
 
 RUN mkdir -p /etc/nginx/includes
 
