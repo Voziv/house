@@ -1,5 +1,6 @@
 # Just copying composer from here
 FROM composer:latest as composer_build
+FROM house_node_build:latest as node_build
 
 #
 # Main Docker Image
@@ -79,6 +80,7 @@ RUN su-exec www-data composer install \
         --no-cache
 
 COPY --chown=www-data:www-data . /var/www/app
+COPY --from=node_build --chown=www-data:www-data /var/www/app/public /var/www/app/public
 
 RUN set -eux; \
         mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
