@@ -8,16 +8,50 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="grid grid-flow-col grid-cols-3 grid-rows-4 gap-4">
+                <div class="grid grid-flow-col grid-cols-1 grid-rows-4 gap-4">
                     <card v-for="room in rooms" :key="room.id">
-                        <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
-                            {{ room.name }}
-                            -
-                            {{ (room.latest_reading.temperature || "") + "°C"}}
+                        <div class="flex mb-2">
+                            <h4 class="text-xl font-semibold text-gray-600 dark:text-gray-300 flex-1">
+                                {{ room.name }}
+                            </h4>
+                            <div>
+                            <span class="font-bold">
+                            {{ (room.latest_reading.temperature || '') + '°C' }}
+                            </span>
+                                <span class="italic font-thin">
                             @
-                            {{ (room.latest_reading.humidity || "") + "%"}}
-                        </h4>
-                        <room-chart :temperatures="room.temperatures" />
+                            {{ (room.latest_reading.humidity || '') + '%' }}
+                            </span>
+                            </div>
+                        </div>
+
+                        <hr class="mb-8">
+
+                        <h4 class="text-center">Sensor data over the last 24 hours</h4>
+                        <hr>
+
+                        <div class="flex mb-4">
+                            <div class="flex-1">
+                                <temp-chart :data="room.temperatures" title="Temperature (24 hours)"/>
+                            </div>
+                            <div class="flex-1">
+                                <humidity-chart :data="room.temperatures" title="Humidity (24 hours)"/>
+                            </div>
+                        </div>
+
+
+                        <h4 class="text-center">Sensor data over the last week</h4>
+                        <hr>
+
+                        <div class="flex mb-4">
+
+                            <div class="flex-1">
+                                <temp-chart :data="room.temperatures_week" title="Temperature (1 week)"/>
+                            </div>
+                            <div class="flex-1">
+                                <humidity-chart :data="room.temperatures_week" title="Humidity (1 week)"/>
+                            </div>
+                        </div>
                     </card>
                 </div>
             </div>
@@ -27,18 +61,16 @@
 
 <script>
 import AppLayout from '@/Layouts/AppLayout';
-import Welcome from '@/Jetstream/Welcome';
-import RoomCard from '../Components/RoomCard';
-import RoomChart from '../Components/RoomChart';
+import TempChart from '../Components/TempChart';
 import Card from '../Components/Card';
+import HumidityChart from '../Components/HumidityChart';
 
 export default {
     components: {
+        HumidityChart,
         Card,
-        RoomChart,
-        RoomCard,
+        TempChart,
         AppLayout,
-        Welcome,
     },
     props: {
         rooms: Array,

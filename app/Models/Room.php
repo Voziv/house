@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Expression;
 
 /**
  * App\Models\Room
@@ -51,7 +52,30 @@ class Room extends Model
 
     public function temperatures()
     {
-        return $this->hasMany(Temperature::class);
+        $daysOfData = 1;
+        $interval = 5;
+        return $this->hasMany(Temperature::class)
+            ->where('humidity', '>=', 0)
+            ->where('humidity', '<=', 100)
+            ->where('temperature', '>=', -40)
+            ->where('temperature', '<=', 25)
+            ->whereRaw("MINUTE(created_at) % $interval = 0")
+            ->limit(60 / $interval * 24 * $daysOfData)
+            ->orderBy('created_at', 'DESC');
+    }
+
+    public function temperatures_week()
+    {
+        $daysOfData = 7;
+        $interval = 15;
+        return $this->hasMany(Temperature::class)
+            ->where('humidity', '>=', 0)
+            ->where('humidity', '<=', 100)
+            ->where('temperature', '>=', -40)
+            ->where('temperature', '<=', 25)
+            ->whereRaw("MINUTE(created_at) % $interval = 0")
+            ->limit(60 / $interval * 24 * $daysOfData)
+            ->orderBy('created_at', 'DESC');
     }
 
     public function latest_reading()

@@ -41,6 +41,22 @@ class Temperature extends Model
         'humidity',
     ];
 
+    protected $visible = [
+        'temperature',
+        'humidity',
+        'created_at',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'temperature' => 'float',
+        'humidity' => 'float',
+    ];
+
     public function room()
     {
         return $this->belongsTo(Room::class);

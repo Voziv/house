@@ -33,22 +33,18 @@ class TemperatureController extends Controller
     {
         $this->authorize('createSensorReading', $room);
 
-        $temperature = $request->input('temperature');
-        $humidity = $request->input('humidity');
-
-        if (!$temperature && !$humidity) {
-            throw ValidationException::withMessages(
-                [
-                    'temperature' => 'You must at least provide one of the following: [temperature, humidity]',
-                    'humidity' => 'You must at least provide one of the following: [temperature, humidity]',
-                ]
-            );
-        }
+        $this->validate(
+            $request,
+            [
+                'temperature' => 'required|numeric|between:-50,50',
+                'humidity' => 'required|numeric|between:0,100',
+            ]
+        );
 
         $newTemp = new Temperature(
             [
-                'temperature' => $temperature,
-                'humidity' => $humidity,
+                'temperature' => $request->input('temperature'),
+                'humidity' => $request->input('humidity'),
             ]
         );
         $room->temperatures()->save($newTemp);
