@@ -16,26 +16,27 @@
                             </h4>
                             <div>
                             <span class="font-bold">
-                            {{ (room.latest_reading.temperature || '') + '°C' }}
+                            {{ (room.current_condition_reading.temperature || '') + '°C' }}
                             </span>
                                 <span class="italic font-thin">
                             @
-                            {{ (room.latest_reading.humidity || '') + '%' }}
+                            {{ (room.current_condition_reading.humidity || '') + '%' }}
                             </span>
                             </div>
                         </div>
 
+                            {{ room }}
                         <hr class="mb-8">
 
                         <h4 class="text-center">Sensor data over the last 24 hours</h4>
                         <hr>
 
-                        <div class="flex mb-4">
+                        <div class="flex mb-4" v-if="room.condition_readings">
                             <div class="flex-1">
-                                <temp-chart :data="room.temperatures" title="Temperature (24 hours)"/>
+                                <temp-chart :data="room.condition_readings" title="Temperature (24 hours)"/>
                             </div>
                             <div class="flex-1">
-                                <humidity-chart :data="room.temperatures" title="Humidity (24 hours)"/>
+                                <humidity-chart :data="room.condition_readings" title="Humidity (24 hours)"/>
                             </div>
                         </div>
 
@@ -43,13 +44,13 @@
                         <h4 class="text-center">Sensor data over the last week</h4>
                         <hr>
 
-                        <div class="flex mb-4">
+                        <div class="flex mb-4" v-if="room.condition_readings_weekly">>
 
                             <div class="flex-1">
-                                <temp-chart :data="room.temperatures_week" title="Temperature (1 week)"/>
+                                <temp-chart :data="room.condition_readings_weekly" title="Temperature (1 week)"/>
                             </div>
                             <div class="flex-1">
-                                <humidity-chart :data="room.temperatures_week" title="Humidity (1 week)"/>
+                                <humidity-chart :data="room.condition_readings_weekly" title="Humidity (1 week)"/>
                             </div>
                         </div>
                     </card>

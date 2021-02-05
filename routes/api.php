@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\RoomsController;
-use App\Http\Controllers\Api\TemperatureController;
+use App\Http\Controllers\Api\SensorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(
         Route::post('/rooms/{room}', [RoomsController::class, 'saveRoom']);
         Route::post('/rooms', [RoomsController::class, 'createRoom']);
 
-        Route::post('/rooms/{room}/record', [TemperatureController::class, 'addReading']);
+        Route::post('/sensors/{sensor}/log-reading/{room}', [SensorController::class, 'logReading']);
+
+        // @deprecated
+        Route::post('/rooms/{room}/record', [SensorController::class, 'logReading']);
     }
 );

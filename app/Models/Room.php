@@ -16,9 +16,11 @@ use Illuminate\Database\Query\Expression;
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Temperature|null $latest_reading
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Temperature[] $temperatures
- * @property-read int|null $temperatures_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $conditionReadings
+ * @property-read int|null $condition_readings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $currentConditionReading
+ * @property-read int|null $current_condition_reading_count
+ * @property-read \App\Models\Sensor|null $sensor
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
@@ -50,37 +52,19 @@ class Room extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function temperatures()
+    public function sensor()
     {
-        $daysOfData = 1;
-        $interval = 5;
-        return $this->hasMany(Temperature::class)
-            ->where('humidity', '>=', 0)
-            ->where('humidity', '<=', 100)
-            ->where('temperature', '>=', -40)
-            ->where('temperature', '<=', 25)
-            ->whereRaw("MINUTE(created_at) % $interval = 0")
-            ->limit(60 / $interval * 24 * $daysOfData)
-            ->orderBy('created_at', 'DESC');
+        return $this->hasOne(Sensor::class);
     }
 
-    public function temperatures_week()
+    public function condition_readings()
     {
-        $daysOfData = 7;
-        $interval = 15;
-        return $this->hasMany(Temperature::class)
-            ->where('humidity', '>=', 0)
-            ->where('humidity', '<=', 100)
-            ->where('temperature', '>=', -40)
-            ->where('temperature', '<=', 25)
-            ->whereRaw("MINUTE(created_at) % $interval = 0")
-            ->limit(60 / $interval * 24 * $daysOfData)
-            ->orderBy('created_at', 'DESC');
+        return $this->hasMany(ConditionReading::class);
     }
 
-    public function latest_reading()
+    public function current_condition_reading()
     {
-        return $this->hasOne(Temperature::class)->latest();
+        return $this->hasMany(ConditionReading::class);
     }
 
     public function getRouteKeyName()

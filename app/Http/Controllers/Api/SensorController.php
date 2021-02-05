@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Room;
+use App\Models\Sensor;
 use App\Models\Temperature;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\ValidationException;
 
-class TemperatureController extends Controller
+class SensorController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -29,7 +30,7 @@ class TemperatureController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function addReading(Request $request, Room $room): JsonResource
+    public function logReading(Request $request, Sensor $sensor, Room $room): JsonResource
     {
         $this->authorize('createSensorReading', $room);
 
