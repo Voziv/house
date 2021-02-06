@@ -31,11 +31,11 @@ env:
   DOCKER_NODE_BUILD_FILE: "./tools/docker/node/node.docker"
   DOCKER_NODE_BUILD_TAG: "house_node_build:latest"
   BACKEND_DOCKERFILE: "./tools/docker/app/app.docker"
-  BACKEND_DOCKER_IMAGE: "gcr.io/generic-website-hosting/house-backend"
-  BACKEND_DOCKER_LATEST: "gcr.io/generic-website-hosting/house-backend:latest"
+  BACKEND_DOCKER_IMAGE: "gcr.io/voziv-web/house-backend"
+  BACKEND_DOCKER_LATEST: "gcr.io/voziv-web/house-backend:latest"
   FRONTEND_DOCKERFILE: "./tools/docker/nginx/nginx.docker"
-  FRONTEND_DOCKER_IMAGE: "gcr.io/generic-website-hosting/house-frontend"
-  FRONTEND_DOCKER_LATEST: "gcr.io/generic-website-hosting/house-frontend:latest"
+  FRONTEND_DOCKER_IMAGE: "gcr.io/voziv-web/house-frontend"
+  FRONTEND_DOCKER_LATEST: "gcr.io/voziv-web/house-frontend:latest"
   DOCKER_REGISTRY_URL: "https://gcr.io"
   MAIN_BRANCH_REF: 'refs/heads/main'
 

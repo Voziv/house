@@ -1,4 +1,4 @@
-FROM gcr.io/generic-website-hosting/house-backend:latest
+FROM gcr.io/voziv-web/house-backend:latest
 
 ARG DOCKER_XDEBUG_PORT
 ARG DOCKER_XDEBUG_HEADER
