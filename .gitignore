@@ -4,6 +4,7 @@
 /public/css
 /public/fonts
 /public/webfonts
+/public/mix-manifest.json
 /public/storage
 /storage/*.key
 /vendor

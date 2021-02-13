@@ -45,6 +45,6 @@ class CreateConditionReadingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sensor_readings');
+        Schema::dropIfExists('condition_readings');
     }
 }

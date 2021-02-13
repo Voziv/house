@@ -27,7 +27,6 @@ class RoomsController extends Controller
 
         $rooms = Room::query()
             ->where('user_id', $user->id)
-            ->with('current_condition_reading')
             ->get();
 
         return Inertia::render(
