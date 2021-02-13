@@ -8,17 +8,17 @@ function createChartData(temperatures, title) {
 
     temperatures.forEach((temp) => {
         tempsMax.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['temperature_avg'],
         });
 
         tempsMin.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['temperature_min'],
         });
 
         tempsAvg.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['temperature_max'],
         });
     });

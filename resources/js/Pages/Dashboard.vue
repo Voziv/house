@@ -95,12 +95,12 @@ export default {
         fetchReadings() {
             if (this.rooms.length > 0) {
                 this.rooms.map(async (room) => {
-                    let response = await axios.get(`/api/rooms/${room.slug}/readings`);
+                    let response = await axios.get(`/api/rooms/${room.slug}/readings?interval="24 hours"&bucket="15 minutes`);
                     Vue.set(this.readings, room.slug, response.data);
                 });
 
                 this.rooms.map(async (room) => {
-                    let response = await axios.get(`/api/rooms/${room.slug}/readings?interval="7 days"&bucket="3 hour"`);
+                    let response = await axios.get(`/api/rooms/${room.slug}/readings?interval="7 days"&bucket="3 hours"`);
                     Vue.set(this.readingsLong, room.slug, response.data);
                 });
             }

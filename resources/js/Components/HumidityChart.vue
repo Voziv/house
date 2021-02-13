@@ -8,17 +8,17 @@ function createChartData(temperatures) {
 
     temperatures.forEach((temp) => {
         humiditiesAvg.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['humidity_avg'],
         });
 
         humiditiesMin.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['humidity_min'],
         });
 
         humiditiesMax.push({
-            t: temp.created_at,
+            t: temp.created_at_bucket,
             y: temp['humidity_max'],
         });
     });

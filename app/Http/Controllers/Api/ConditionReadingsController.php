@@ -33,7 +33,7 @@ class ConditionReadingsController extends Controller
                     SELECT
                            sensor_id,
                            room_id,
-                           time_bucket(:bucket, created_at) as created_at,
+                           time_bucket(:bucket, created_at) as created_at_bucket,
                            AVG(temperature) AS temperature_avg,
                            AVG(humidity)    AS humidity_avg,
                            MAX(temperature) AS temperature_max,
@@ -42,8 +42,8 @@ class ConditionReadingsController extends Controller
                            MIN(humidity)    AS humidity_min
                     FROM condition_readings
                     WHERE created_at > NOW() - :interval::interval AND room_id = :room_id
-                    GROUP BY sensor_id, room_id, created_at
-                    ORDER BY created_at DESC;
+                    GROUP BY sensor_id, room_id, created_at_bucket
+                    ORDER BY created_at_bucket DESC;
                 "
             ,
             $bindings
