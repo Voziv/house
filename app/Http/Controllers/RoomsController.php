@@ -25,7 +25,10 @@ class RoomsController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $rooms = Room::query()->where('user_id', $user->id)->with('latest_reading')->get();
+        $rooms = Room::query()
+            ->where('user_id', $user->id)
+            ->with('current_condition_reading')
+            ->get();
 
         return Inertia::render(
             'Rooms/List',

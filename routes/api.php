@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ConditionReadingsController;
 use App\Http\Controllers\Api\RoomsController;
-use App\Http\Controllers\Api\TemperatureController;
+use App\Http\Controllers\Api\SensorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,14 @@ Route::middleware('auth:sanctum')->get(
 Route::middleware('auth:sanctum')->group(
     function () {
         Route::get('/rooms', [RoomsController::class, 'listRooms']);
+        Route::post('/rooms', [RoomsController::class, 'createRoom']);
         Route::get('/rooms/{room}', [RoomsController::class, 'getRoom']);
         Route::post('/rooms/{room}', [RoomsController::class, 'saveRoom']);
-        Route::post('/rooms', [RoomsController::class, 'createRoom']);
+        Route::get('/rooms/{room}/readings', [ConditionReadingsController::class, 'getReadingsForRoom']);
 
-        Route::post('/rooms/{room}/record', [TemperatureController::class, 'addReading']);
+        Route::post('/sensors/{sensor}/log-reading/{room}', [SensorController::class, 'logReading']);
+
+        // @deprecated
+        Route::post('/rooms/{room}/record', [SensorController::class, 'logReading']);
     }
 );

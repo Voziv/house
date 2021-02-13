@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Room;
+use App\Models\Sensor;
 use App\Models\Temperature;
 use App\Models\User;
+use Database\Factories\SensorFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -18,16 +20,16 @@ class DevDatabaseSeeder extends Seeder
     public function run()
     {
         $rooms = [
-            'Basement Office',
-            'Bedroom #1',
-            'Bedroom #2',
-            'Bedroom #3',
-            'Dining Room',
+//            'Basement Office',
+//            'Bedroom #1',
+//            'Bedroom #2',
+//            'Bedroom #3',
+//            'Dining Room',
             'Garage',
-            'Laundry Room',
-            'Living Room',
-            'Shed',
-            'TV Room',
+//            'Laundry Room',
+//            'Living Room',
+//            'Shed',
+//            'TV Room',
             'Voziv Office',
         ];
 
@@ -44,7 +46,8 @@ class DevDatabaseSeeder extends Seeder
                 ->for($user, 'user')
                 ->create();
 
-            Temperature::factory()->count(50)
+            Sensor::factory()
+                ->for($user, 'user')
                 ->for($room, 'room')
                 ->create();
         }

@@ -2,24 +2,54 @@
 import {Line} from 'vue-chartjs';
 
 function createChartData(temperatures) {
-    let humids = [];
+    let humiditiesAvg = [];
+    let humiditiesMin = [];
+    let humiditiesMax = [];
 
     temperatures.forEach((temp) => {
-        humids.push({
+        humiditiesAvg.push({
             t: temp.created_at,
-            y: temp['humidity'],
+            y: temp['humidity_avg'],
+        });
+
+        humiditiesMin.push({
+            t: temp.created_at,
+            y: temp['humidity_min'],
+        });
+
+        humiditiesMax.push({
+            t: temp.created_at,
+            y: temp['humidity_max'],
         });
     });
 
     return {
         datasets: [
             {
-                label: "Humidity (%)",
+                label: "Humidity (%) (Avg)",
+                fill: false,
+                borderColor: 'rgb(200,38,38)',
+                borderWidth: 1,
+                pointRadius: 0,
+                data: humiditiesAvg,
+                yAxisID: 'y-axis-1',
+            },
+            {
+                label: "Humidity (%) (Min)",
                 fill: false,
                 borderColor: 'rgb(38,96,200)',
                 borderWidth: 1,
                 pointRadius: 0,
-                data: humids,
+                data: humiditiesMin,
+                yAxisID: 'y-axis-1',
+            },
+            {
+                label: "Humidity (%) (Max)",
+                fill: false,
+                borderColor: 'rgb(38,96,200)',
+                borderWidth: 1,
+                pointRadius: 0,
+                data: humiditiesMax,
                 yAxisID: 'y-axis-1',
             },
         ],

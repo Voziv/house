@@ -1,31 +1,55 @@
 <script>
 import {Line} from 'vue-chartjs';
-import moment from 'moment';
 
 function createChartData(temperatures, title) {
-    let temps = [];
-    let humids = [];
+    let tempsMax = [];
+    let tempsMin = [];
+    let tempsAvg = [];
 
     temperatures.forEach((temp) => {
-        temps.push({
+        tempsMax.push({
             t: temp.created_at,
-            y: temp['temperature'],
+            y: temp['temperature_avg'],
         });
-        humids.push({
+
+        tempsMin.push({
             t: temp.created_at,
-            y: temp['humidity'],
+            y: temp['temperature_min'],
+        });
+
+        tempsAvg.push({
+            t: temp.created_at,
+            y: temp['temperature_max'],
         });
     });
 
     return {
         datasets: [
             {
-                label: 'Temperature (°C)',
+                label: 'Temperature (°C) (Avg)',
+                fill: false,
+                borderColor: 'rgb(200,38,38)',
+                borderWidth: 1,
+                pointRadius: 0,
+                data: tempsAvg,
+                yAxisID: 'y-axis-1',
+            },
+            {
+                label: 'Temperature (°C)  (Min)',
                 fill: false,
                 borderColor: 'rgb(38,96,200)',
                 borderWidth: 1,
                 pointRadius: 0,
-                data: temps,
+                data: tempsMin,
+                yAxisID: 'y-axis-1',
+            },
+            {
+                label: 'Temperature (°C) (Max)',
+                fill: false,
+                borderColor: 'rgb(38,96,200)',
+                borderWidth: 1,
+                pointRadius: 0,
+                data: tempsMax,
                 yAxisID: 'y-axis-1',
             },
         ],
@@ -92,8 +116,8 @@ export default {
                         position: 'left',
                         id: 'y-axis-1',
                         ticks: {
-                            suggestedMin: 15,
-                            suggestedMax: 25,
+                            suggestedMin: 10,
+                            suggestedMax: 28,
                         },
                     },
                 ],

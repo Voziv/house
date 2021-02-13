@@ -24,8 +24,17 @@ class DashboardController extends Controller
     {
         $rooms = Room::query()
             ->where('user_id', $request->user()->id)
-            ->with('temperatures', 'latest_reading', 'temperatures_week')
             ->get();
+
+
+
+        $rooms->load(
+            [
+                'current_condition_reading' => function ($query) use ($rooms){
+                    return $query->limit($rooms->count())->latest();
+                },
+            ]
+        );
 
         return Inertia::render(
             'Dashboard',
