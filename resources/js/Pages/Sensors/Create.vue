@@ -1,0 +1,68 @@
+<template>
+    <app-layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                sensors
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <jet-validation-errors class="mb-4"/>
+
+            <form @submit.prevent="submit">
+                <div>
+                    <jet-label for="name" value="Name" />
+                    <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus />
+                </div>
+
+                <div class="mt-4">
+                    <jet-label for="slug" value="Slug" />
+                    <jet-input id="slug" type="text" class="mt-1 block w-full" v-model="form.slug" required />
+                </div>
+
+                <div class="flex items-center justify-end mt-4">
+                    <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Create
+                    </jet-button>
+                </div>
+            </form>
+        </div>
+    </app-layout>
+</template>
+
+<script>
+import AppLayout from '@/Layouts/AppLayout';
+import JetValidationErrors from '@/Jetstream/ValidationErrors';
+import JetButton from '@/Jetstream/Button';
+import JetInput from '@/Jetstream/Input';
+import JetLabel from '@/Jetstream/Label';
+
+export default {
+    components: {
+        AppLayout,
+        JetValidationErrors,
+        JetButton,
+        JetInput,
+        JetLabel,
+    },
+    props: {
+        rooms: Array,
+        sensor: Object,
+    },
+    data() {
+        return {
+            form: this.$inertia.form({
+                name: 'My sensor',
+                slug: 'my-sensor-slug',
+            }),
+        };
+    },
+    methods: {
+        submit() {
+            this.form.transform(data => ({
+                ...data,
+            })).post(this.route('sensors.store'));
+        },
+    },
+};
+</script>

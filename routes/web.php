@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomsController;
+use App\Http\Controllers\SensorController;
+use App\Http\Controllers\SensorsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/rooms', [RoomsController::class, 'index'])->name('rooms');
+
+        Route::resource('rooms', RoomsController::class)->scoped(['room' => 'slug']);
+        Route::resource('sensors', SensorsController::class)->scoped(['sensor' => 'slug']);
     }
 );
 

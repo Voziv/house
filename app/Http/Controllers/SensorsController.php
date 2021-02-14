@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
+use App\Models\Sensor;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoomsController extends Controller
+class SensorsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -32,14 +30,14 @@ class RoomsController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $rooms = Room::query()
+        $sensors = Sensor::query()
             ->where('user_id', $user->id)
             ->get();
 
         return Inertia::render(
-            'Rooms/List',
+            'Sensors/List',
             [
-                'rooms' => $rooms,
+                'sensors' => $sensors,
             ]
         );
     }
@@ -48,15 +46,16 @@ class RoomsController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @param Room $room
+     * @param Sensor $sensor
      * @return Response|Responsable
      */
-    public function show(Request $request, Room $room)
+    public function show(Request $request, Sensor $sensor)
     {
+        $sensor->load('room');
         return Inertia::render(
-            'Rooms/Show',
+            'Sensors/Show',
             [
-                'room' => $room,
+                'sensor' => $sensor,
             ]
         );
     }
@@ -69,7 +68,7 @@ class RoomsController extends Controller
      */
     public function create(Request $request)
     {
-        return Inertia::render('Rooms/Create');
+        return Inertia::render('Sensors/Create');
     }
 
     /**
@@ -88,29 +87,29 @@ class RoomsController extends Controller
                 'slug' => [
                     'required',
                     'alpha_dash',
-                    Rule::unique(Room::class, 'slug'),
+                    Rule::unique(Sensor::class, 'slug'),
                 ],
             ]
         );
 
 
-        $room = new Room($validated);
-        $room->user_id = $request->user()->id;
-        $room->save();
+        $sensor = new Sensor($validated);
+        $sensor->user_id = $request->user()->id;
+        $sensor->save();
 
-        return Redirect::route('rooms.index')
-            ->with('message', "{$room->name} created successfully.");
+        return Redirect::route('sensors.index')
+            ->with('message', "{$sensor->name} created successfully.");
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @param Room $room
+     * @param Sensor $sensor
      * @return Response
      * @throws ValidationException
      */
-    public function update(Request $request, Room $room): Response
+    public function update(Request $request, Sensor $sensor): Response
     {
         $validated = $this->validate(
             $request,
@@ -119,25 +118,25 @@ class RoomsController extends Controller
             ]
         );
 
-        $room->update($validated);
+        $sensor->update($validated);
 
-        return Redirect::route('rooms.index')
-            ->with('message', "Room updated successfully.");
+        return Redirect::route('sensors.index')
+            ->with('message', "Sensor updated successfully.");
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @param Room $room
+     * @param Sensor $sensor
      * @return Response
      * @throws Exception
      */
-    public function destroy(Request $request, Room $room): Response
+    public function destroy(Request $request, Sensor $sensor): Response
     {
-        $room->delete();
+        $sensor->delete();
 
-        return Redirect::route('rooms.index')
-            ->with('message', "Room deleted successfully.");
+        return Redirect::route('sensors.index')
+            ->with('message', "Sensor deleted successfully.");
     }
 }
