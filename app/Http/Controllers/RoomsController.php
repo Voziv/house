@@ -29,6 +29,8 @@ class RoomsController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Room::class);
+
         /** @var User $user */
         $user = $request->user();
 
@@ -53,6 +55,16 @@ class RoomsController extends Controller
      */
     public function show(Request $request, Room $room)
     {
+        $this->authorize('view', $room);
+
+        $room->load(
+            [
+                'latest_reading' => function ($query) {
+                    return $query->latest()->first();
+                },
+            ]
+        );
+
         return Inertia::render(
             'Rooms/Show',
             [
@@ -69,6 +81,8 @@ class RoomsController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Room::class);
+
         return Inertia::render('Rooms/Create');
     }
 
@@ -81,6 +95,8 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Room::class);
+
         $validated = $this->validate(
             $request,
             [
@@ -112,6 +128,8 @@ class RoomsController extends Controller
      */
     public function update(Request $request, Room $room): Response
     {
+        $this->authorize('update', $room);
+
         $validated = $this->validate(
             $request,
             [

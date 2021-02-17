@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $slug
  * @property int $user_id
+ * @property int $room_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ConditionReading|null $currentCondition
@@ -40,6 +41,7 @@ class Sensor extends Model
     protected $fillable = [
         'name',
         'slug',
+        'room_id',
     ];
 
     public function user()
@@ -57,9 +59,9 @@ class Sensor extends Model
         return $this->hasMany(ConditionReading::class);
     }
 
-    public function currentConditionReading()
+    public function latest_reading()
     {
-        return $this->hasMany(ConditionReading::class)->latest();
+        return $this->hasOne(ConditionReading::class)->latest()->limit(1);
     }
 
     public function getRouteKeyName()

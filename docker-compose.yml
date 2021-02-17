@@ -6,9 +6,7 @@ services:
       context: .
       dockerfile: tools/docker/app/app.dev.docker
       args:
-        DOCKER_XDEBUG_PORT: ${DOCKER_XDEBUG_PORT:-9000}
-        DOCKER_XDEBUG_HEADER: ${DOCKER_XDEBUG_HEADER:-""}
-    user: ${DOCKER_PHP_USER_ID}:${DOCKER_PHP_GROUP_ID}
+    user: ${DOCKER_PHP_USER_ID:-1000}:${DOCKER_PHP_GROUP_ID:-1000}
     environment:
       CONTAINER_ROLE: "fpm"
       DB_HOST: "postgres"
@@ -18,9 +16,6 @@ services:
       XDEBUG_MODE: "${XDEBUG_MODE}"
     volumes:
       - '.:/var/www/app:cached'
-    depends_on:
-      - postgres
-      - redis
 
   web:
     image: gcr.io/voziv-web/house-frontend:latest

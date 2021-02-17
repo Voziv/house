@@ -8,7 +8,9 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
-                <a class="btn btn-primary" :href="route('sensors.create')">Add</a>
+                <div class="flex items-center justify-end mt-4">
+                    <a class="btn btn-primary" :href="route('sensors.create')">+</a>
+                </div>
             </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 

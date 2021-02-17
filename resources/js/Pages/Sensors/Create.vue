@@ -2,36 +2,46 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                sensors
+                Add new sensor
             </h2>
         </template>
 
         <div class="py-12">
-            <jet-validation-errors class="mb-4"/>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+                <a class="btn btn-primary" :href="route('sensors.index')"><- Back</a>
+            </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+                <card>
+                    <jet-validation-errors class="mb-4"/>
 
-            <form @submit.prevent="submit">
-                <div>
-                    <jet-label for="name" value="Name" />
-                    <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus />
-                </div>
+                    <form @submit.prevent="submit">
+                        <div>
+                            <jet-label for="name" value="Name"/>
+                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required
+                                       autofocus/>
+                        </div>
 
-                <div class="mt-4">
-                    <jet-label for="slug" value="Slug" />
-                    <jet-input id="slug" type="text" class="mt-1 block w-full" v-model="form.slug" required />
-                </div>
+                        <div class="mt-4">
+                            <jet-label for="slug" value="Slug"/>
+                            <jet-input id="slug" type="text" class="mt-1 block w-full" v-model="form.slug" required/>
+                        </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Create
-                    </jet-button>
-                </div>
-            </form>
+                        <div class="flex items-center justify-end mt-4">
+                            <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
+                                        :disabled="form.processing">
+                                Create
+                            </jet-button>
+                        </div>
+                    </form>
+                </card>
+            </div>
         </div>
     </app-layout>
 </template>
 
 <script>
 import AppLayout from '@/Layouts/AppLayout';
+import Card from '@/Components/Card';
 import JetValidationErrors from '@/Jetstream/ValidationErrors';
 import JetButton from '@/Jetstream/Button';
 import JetInput from '@/Jetstream/Input';
@@ -40,6 +50,7 @@ import JetLabel from '@/Jetstream/Label';
 export default {
     components: {
         AppLayout,
+        Card,
         JetValidationErrors,
         JetButton,
         JetInput,

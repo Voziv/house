@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ConditionReading;
 use App\Models\Room;
+use App\Models\Sensor;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConditionReadingsController extends Controller
@@ -50,5 +52,37 @@ class ConditionReadingsController extends Controller
         );
 
         return response()->json($readings);
+    }
+
+    /**
+     * @param Request $request
+     * @param Sensor $sensor
+     * @return JsonResource
+     * @throws AuthorizationException
+     * @throws ValidationException
+     */
+    public function logReading(Request $request, Sensor $sensor): JsonResource
+    {
+        $this->authorize('createSensorReading', $sensor);
+
+        $validated = $this->validate(
+            $request,
+            [
+                'temperature' => 'required|numeric|between:-50,50',
+                'humidity' => 'numeric|between:0,100',
+            ]
+        );
+
+        $reading = new ConditionReading($validated);
+
+        $reading->sensor_id = $sensor->id;
+
+        if ($sensor->room()->exists()) {
+            $reading->room_id = $sensor->room->id;
+        }
+
+        $reading->save();
+
+        return JsonResource::make($reading);
     }
 }

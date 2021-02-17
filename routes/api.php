@@ -32,9 +32,6 @@ Route::middleware('auth:sanctum')->group(
         Route::post('/rooms/{room}', [RoomsController::class, 'saveRoom']);
         Route::get('/rooms/{room}/readings', [ConditionReadingsController::class, 'getReadingsForRoom']);
 
-        Route::post('/sensors/{sensor}/log-reading/{room}', [SensorController::class, 'logReading']);
-
-        // @deprecated
-        Route::post('/rooms/{room}/record', [SensorController::class, 'logReading']);
+        Route::post('/sensors/{sensor}/log-reading', [ConditionReadingsController::class, 'logReading'])->name('sensorLogReading');
     }
 );
