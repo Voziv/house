@@ -112,7 +112,14 @@ class SensorsController extends Controller
     {
         $this->authorize('create', Sensor::class);
 
-        return Inertia::render('Sensors/Create');
+        $rooms = Room::query()->where('user_id', $request->user()->id)->get();
+
+        return Inertia::render(
+            'Sensors/Create',
+            [
+                'rooms' => $rooms,
+            ]
+        );
     }
 
     /**

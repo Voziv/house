@@ -26,6 +26,14 @@
                             <jet-input id="slug" type="text" class="mt-1 block w-full" v-model="form.slug" required/>
                         </div>
 
+                        <div class="mt-4">
+                            <jet-label for="room_id" value="Room"/>
+                            <select id="room_id" class="mt-1 block w-full" v-model="form.room_id">
+                                <option value="0">None</option>
+                                <option v-for="room in rooms" :key="room.id" :value="room.id">{{ room.name }}</option>
+                            </select>
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
                                         :disabled="form.processing">
@@ -65,6 +73,7 @@ export default {
             form: this.$inertia.form({
                 name: 'My sensor',
                 slug: 'my-sensor-slug',
+                room_id: (this.sensor.room) ? this.sensor.room_id : 0,
             }),
         };
     },

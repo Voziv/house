@@ -27,6 +27,7 @@
                         </div>
 
                         <div class="mt-4">
+                            <jet-label for="room_id" value="Room"/>
                             <select id="room_id" class="mt-1 block w-full" v-model="form.room_id">
                                 <option value="0">None</option>
                                 <option v-for="room in rooms" :key="room.id" :value="room.id">{{ room.name }}</option>
