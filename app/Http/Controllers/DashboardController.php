@@ -24,9 +24,8 @@ class DashboardController extends Controller
     {
         $rooms = Room::query()
             ->where('user_id', $request->user()->id)
+            ->has('sensor')
             ->get();
-
-
 
         $rooms->load(
             [
