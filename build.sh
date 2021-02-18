@@ -12,6 +12,7 @@ DOCKER_REGISTRY_URL="https://gcr.io"
 
 function docker_build () {
     docker build \
+        --progress=plain \
         --build-arg BUILD_DATE=`TZ="America/Toronto" date +"%Y-%m-%dT%H:%M:%SZ"` \
         --build-arg VCS_REF="local" \
         --build-arg VERSION="local" \
@@ -22,6 +23,6 @@ function docker_build () {
 
 docker_build "${DOCKER_NODE_BUILD_TAG}" "${DOCKER_NODE_BUILD_FILE}"
 docker_build "${BACKEND_DOCKER_LATEST}" "${BACKEND_DOCKERFILE}"
-#docker_build "${FRONTEND_DOCKER_LATEST}" "${FRONTEND_DOCKERFILE}"
+docker_build "${FRONTEND_DOCKER_LATEST}" "${FRONTEND_DOCKERFILE}"
 
 

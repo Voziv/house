@@ -58,14 +58,10 @@ jobs:
           echo "BACKEND_DOCKER_TAG=${BACKEND_DOCKER_IMAGE}:${GITHUB_REF##*/}" >> $GITHUB_ENV
           echo "FRONTEND_DOCKER_TAG=${FRONTEND_DOCKER_IMAGE}:${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: "Docker pull"
-        run: |
-          docker pull "${BACKEND_DOCKER_TAG}" || true
-          docker pull "${FRONTEND_DOCKER_TAG}" || true
-
       - name: "Docker build node build image"
         run: |
           docker build \
+            --progress=plain \
             --tag "${DOCKER_NODE_BUILD_TAG}" \
             --file "${DOCKER_NODE_BUILD_FILE}" \
             .
@@ -73,7 +69,7 @@ jobs:
       - name: "Docker build backend"
         run: |
           docker build \
-            --cache-from "${BACKEND_DOCKER_TAG}" \
+            --progress=plain \
             --build-arg BUILD_DATE=`TZ="America/Toronto" date +"%Y-%m-%dT%H:%M:%SZ"` \
             --build-arg VCS_REF="${GITHUB_SHA}" \
             --build-arg VERSION="${GITHUB_REF}" \
@@ -84,7 +80,7 @@ jobs:
       - name: "Docker build frontend"
         run: |
           docker build \
-            --cache-from "${FRONTEND_DOCKER_TAG}" \
+            --progress=plain \
             --build-arg BUILD_DATE=`TZ="America/Toronto" date +"%Y-%m-%dT%H:%M:%SZ"` \
             --build-arg VCS_REF=`${GITHUB_SHA}` \
             --tag "${FRONTEND_DOCKER_TAG}" \
