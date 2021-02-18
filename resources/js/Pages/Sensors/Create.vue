@@ -66,14 +66,13 @@ export default {
     },
     props: {
         rooms: Array,
-        sensor: Object,
     },
     data() {
         return {
             form: this.$inertia.form({
-                name: 'My sensor',
-                slug: 'my-sensor-slug',
-                room_id: (this.sensor.room) ? this.sensor.room_id : 0,
+                name: '',
+                slug: '',
+                room_id: 0,
             }),
         };
     },

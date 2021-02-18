@@ -64,8 +64,8 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                name: 'My Room',
-                slug: 'my-room-slug',
+                name: '',
+                slug: '',
             }),
         };
     },
