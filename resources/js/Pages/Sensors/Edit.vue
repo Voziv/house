@@ -7,10 +7,10 @@
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8 py-4">
                 <a class="btn btn-primary" :href="route('sensors.index')"><- Back</a>
             </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8 py-4">
                 <card>
                     <jet-validation-errors class="mb-4"/>
 

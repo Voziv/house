@@ -38,6 +38,10 @@ class RoomsController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
+        $rooms = $rooms->filter(function($room) {
+            return $room->latest_reading !== null;
+        });
+
         return Inertia::render(
             'Rooms/List',
             [
