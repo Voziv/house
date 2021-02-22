@@ -7,12 +7,12 @@
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-end mt-4">
                     <a class="btn btn-primary" :href="route('rooms.create')">+</a>
                 </div>
             </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
 
                 <div class="grid grid-flow-col grid-cols-3 grid-rows-4 gap-4">
                     <a :href="route('rooms.show', room.slug)" v-for="room in rooms" :key="room.id">

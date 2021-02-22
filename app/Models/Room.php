@@ -62,7 +62,7 @@ class Room extends Model
 
     public function latest_reading()
     {
-        return $this->hasOne(ConditionReading::class)->latest()->limit(1);
+        return $this->hasOne(ConditionReading::class)->latest();
     }
 
     public function current_condition_reading()

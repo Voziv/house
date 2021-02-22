@@ -33,5 +33,6 @@ Route::middleware('auth:sanctum')->group(
         Route::get('/rooms/{room}/readings', [ConditionReadingsController::class, 'getReadingsForRoom']);
 
         Route::post('/sensors/{sensor}/log-reading', [ConditionReadingsController::class, 'logReading'])->name('sensorLogReading');
+        Route::get('/sensors/{sensor}/readings', [ConditionReadingsController::class, 'getReadingsForSensor']);
     }
 );

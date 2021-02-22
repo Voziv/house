@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: tools/docker/app/app.dev.docker
-      args:
     user: ${DOCKER_PHP_USER_ID:-1000}:${DOCKER_PHP_GROUP_ID:-1000}
     environment:
       CONTAINER_ROLE: "fpm"
@@ -38,6 +37,7 @@ services:
       PGDATA: '/var/lib/postgresql/data/pgdata'
     volumes:
       - 'house-postgres:/var/lib/postgresql/data'
+      - './tmp/backups:/backups'
 
   redis:
     image: 'redis:alpine'

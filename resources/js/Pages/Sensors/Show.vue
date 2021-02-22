@@ -8,15 +8,16 @@
 
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8 py-4">
                 <a class="btn btn-primary" :href="route('sensors.index')"><- Back</a>
             </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
 
                 <card>
                     <form @submit.prevent="submit">
                         <div class="flex items-center justify-end mt-4">
-                            <a :href="route('sensors.edit', sensor.slug)" class="inline-flex items-center px-4 py-2 bg-yellow-300 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-600 focus:outline-none focus:border-yellow-900 focus:shadow-outline-yellow transition ease-in-out duration-150 ml-4">
+                            <a :href="route('sensors.edit', sensor.slug)"
+                               class="inline-flex items-center px-4 py-2 bg-yellow-300 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-600 focus:outline-none focus:border-yellow-900 focus:shadow-outline-yellow transition ease-in-out duration-150 ml-4">
                                 Edit
                             </a>
                             <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
@@ -61,7 +62,15 @@
                             }}</p>
                         <p>Temperature: {{ sensor.latest_reading.temperature }}°C</p>
                         <p>Humidity: {{ sensor.latest_reading.humidity || 'N/A' }}%</p>
+                    </div>
 
+                    <div class="mb-4" v-if="condition_readings.length > 0">
+                        <div>
+                            <temp-range-chart :data="condition_readings"/>
+                        </div>
+                        <div>
+                            <humidity-range-chart :data="condition_readings"/>
+                        </div>
                     </div>
                 </card>
             </div>
@@ -70,22 +79,28 @@
 </template>
 
 <script>
-import moment from 'moment';
 import AppLayout from '@/Layouts/AppLayout';
 import Card from '../../Components/Card';
+import HumidityRangeChart from '@/Components/HumidityRangeChart';
 import JetButton from '@/Jetstream/Button';
+import TempRangeChart from '@/Components/TempRangeChart';
+import moment from 'moment';
+import Vue from 'vue';
 
 export default {
     components: {
-        Card,
         AppLayout,
+        Card,
+        HumidityRangeChart,
         JetButton,
+        TempRangeChart,
     },
     props: {
         sensor: Object,
     },
     data() {
         return {
+            condition_readings: [],
             form: this.$inertia.form(
                 {
                     slug: this.sensor.slug,
@@ -96,12 +111,22 @@ export default {
             ),
         };
     },
+    mounted() {
+        this.fetchReadings();
+    },
     methods: {
         submit() {
             this.form.delete(this.route('sensors.destroy', this.sensor.slug));
         },
         moment: function(date) {
             return moment(date);
+        },
+        async fetchReadings() {
+            if (this.sensor) {
+                let response = await axios.get(
+                    `/api/sensors/${this.sensor.slug}/readings?interval="24 hours"&bucket="30 minutes`);
+                this.condition_readings = response.data;
+            }
         },
     },
 };
