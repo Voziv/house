@@ -33,7 +33,7 @@ const commonOptions = {
                 ticks: {
                     precision: 0,
                     callback: function(value, index, values) {
-                        return value + '°C';
+                        return value + '%';
                     },
                 },
             },
