@@ -14,10 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $conditionReadings
+ * @property int|null $latest_condition_reading_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $condition_readings
  * @property-read int|null $condition_readings_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $currentConditionReading
- * @property-read int|null $current_condition_reading_count
+ * @property-read \App\Models\ConditionReading|null $latest_condition_reading
  * @property-read \App\Models\Sensor|null $sensor
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Room query()
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereLatestConditionReadingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
@@ -60,14 +61,9 @@ class Room extends Model
         return $this->hasMany(ConditionReading::class);
     }
 
-    public function latest_reading()
+    public function latest_condition_reading()
     {
-        return $this->hasOne(ConditionReading::class)->latest();
-    }
-
-    public function current_condition_reading()
-    {
-        return $this->hasMany(ConditionReading::class);
+        return $this->belongsTo(ConditionReading::class);
     }
 
     public function getRouteKeyName()

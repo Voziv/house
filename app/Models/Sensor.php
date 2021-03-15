@@ -12,18 +12,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $slug
  * @property int $user_id
- * @property int $room_id
+ * @property int|null $room_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\ConditionReading|null $currentCondition
- * @property-read \App\Models\Room $room
+ * @property int|null $latest_condition_reading_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConditionReading[] $condition_readings
+ * @property-read int|null $condition_readings_count
+ * @property-read \App\Models\ConditionReading|null $latest_condition_reading
+ * @property-read \App\Models\Room|null $room
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor query()
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereLatestConditionReadingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sensor whereUserId($value)
@@ -54,14 +59,14 @@ class Sensor extends Model
         return $this->belongsTo(Room::class);
     }
 
-    public function conditionReadings()
+    public function condition_readings()
     {
         return $this->hasMany(ConditionReading::class);
     }
 
-    public function latest_reading()
+    public function latest_condition_reading()
     {
-        return $this->hasOne(ConditionReading::class)->latest()->limit(1);
+        return $this->belongsTo(ConditionReading::class);
     }
 
     public function getRouteKeyName()

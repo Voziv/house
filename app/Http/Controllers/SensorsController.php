@@ -59,9 +59,7 @@ class SensorsController extends Controller
         $sensor->load(
             [
                 'room',
-                'latest_reading' => function ($query) {
-                    return $query->latest()->first();
-                },
+                'latest_condition_reading',
             ]
         );
         return Inertia::render(

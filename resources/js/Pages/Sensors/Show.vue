@@ -54,14 +54,14 @@
                         </p>
                     </div>
 
-                    <div v-if="sensor.latest_reading">
+                    <div v-if="sensor.latest_condition_reading">
                         <h3>Latest Reading</h3>
                         <hr>
-                        <p :title="sensor.latest_reading.created_at">Timestamp: {{
-                                this.moment(sensor.latest_reading.created_at).fromNow()
+                        <p :title="sensor.latest_condition_reading.created_at">Timestamp: {{
+                                this.moment(sensor.latest_condition_reading.created_at).fromNow()
                             }}</p>
-                        <p>Temperature: {{ sensor.latest_reading.temperature }}°C</p>
-                        <p>Humidity: {{ sensor.latest_reading.humidity || 'N/A' }}%</p>
+                        <p>Temperature: {{ sensor.latest_condition_reading.temperature }}°C</p>
+                        <p>Humidity: {{ sensor.latest_condition_reading.humidity || 'N/A' }}%</p>
                     </div>
 
                     <div class="mb-4" v-if="condition_readings.length > 0">

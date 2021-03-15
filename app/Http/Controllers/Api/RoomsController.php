@@ -34,7 +34,7 @@ class RoomsController extends Controller
 
         $rooms = Room::query()
             ->where('user_id', $request->user()->id)
-            ->with('temperatures', 'latest_reading')
+            ->with('temperatures', 'latest_condition_reading')
             ->get();
 
         return JsonResource::make($rooms);
@@ -49,7 +49,7 @@ class RoomsController extends Controller
     {
         $this->authorize('view', $room);
 
-        $room->load('latest_reading');
+        $room->load('latest_condition_reading');
 
         return JsonResource::make($room);
     }

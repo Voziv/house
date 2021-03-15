@@ -41,12 +41,12 @@
                     <div>
                         <h3>Latest Reading</h3>
                         <hr class="mb-2">
-                        <div v-if="room.latest_reading">
-                            <p :title="room.latest_reading.created_at">Timestamp: {{
-                                    this.moment(room.latest_reading.created_at).fromNow()
+                        <div v-if="room.latest_condition_reading">
+                            <p :title="room.latest_condition_reading.created_at">Timestamp: {{
+                                    this.moment(room.latest_condition_reading.created_at).fromNow()
                                 }}</p>
-                            <p>Temperature: {{ room.latest_reading.temperature }}°C</p>
-                            <p>Humidity: {{ room.latest_reading.humidity || 'N/A' }}%</p>
+                            <p>Temperature: {{ room.latest_condition_reading.temperature }}°C</p>
+                            <p>Humidity: {{ room.latest_condition_reading.humidity || 'N/A' }}%</p>
                         </div>
                         <div v-else class="bg-red-700 text-white inline-block p-2">Never</div>
                     </div>

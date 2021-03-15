@@ -36,11 +36,9 @@ class RoomsController extends Controller
 
         $rooms = Room::query()
             ->where('user_id', $user->id)
+            ->with('latest_condition_reading')
+            ->orderBy('name')
             ->get();
-
-        $rooms = $rooms->filter(function($room) {
-            return $room->latest_reading !== null;
-        });
 
         return Inertia::render(
             'Rooms/List',
@@ -61,13 +59,7 @@ class RoomsController extends Controller
     {
         $this->authorize('view', $room);
 
-        $room->load(
-            [
-                'latest_reading' => function ($query) {
-                    return $query->latest()->first();
-                },
-            ]
-        );
+        $room->load(['latest_condition_reading']);
 
         return Inertia::render(
             'Rooms/Show',

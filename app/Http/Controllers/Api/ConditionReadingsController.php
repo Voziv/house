@@ -122,7 +122,17 @@ class ConditionReadingsController extends Controller
             $reading->room_id = $sensor->room->id;
         }
 
-        $reading->save();
+        $save_success = $reading->save();
+
+        if ($save_success) {
+            $sensor->latest_condition_reading()->associate($reading);
+            $sensor->save();
+            if ($sensor->room()->exists()) {
+                $sensor->room->latest_condition_reading()->associate($reading);
+                $sensor->room->save();
+            }
+        }
+
 
         return JsonResource::make($reading);
     }
