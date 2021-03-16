@@ -15,14 +15,12 @@
                                 {{ room.name }}
                             </h4>
                             <div v-if="room.latest_condition_reading">
-                            <span class="font-bold">
-                            {{ (room.latest_condition_reading.temperature || '') + '°C' }}
-                            </span>
-                                <span class="italic font-thin"
-                                      v-if="room.latest_condition_reading  && room.latest_condition_reading.length > 0">
-                            @
-                            {{ (room.latest_condition_reading.humidity || '') + '%' }}
-                            </span>
+                                <span class="font-bold">
+                                    {{ (room.latest_condition_reading.temperature || '') + '°C' }}
+                                </span>
+                                <span class="italic font-thin">
+                                    @{{ (room.latest_condition_reading.humidity || '') + '%' }}
+                                </span>
                             </div>
                             <div v-else>
                                 <span class="font-bold text-red-500">
